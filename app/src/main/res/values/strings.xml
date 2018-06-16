@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Learning English</string>
+    <string name="start_title">菜 雞 學 英 文</string>
+    <string name="start_title_tip">TAP TO START</string>
+    <string name="default_name">Default name</string>
+    <string name="q_index">Q1.</string>
+    <string name="q_question">default</string>
+    <string name="btn_search">Search</string>
+</resources>
