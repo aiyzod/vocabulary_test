@@ -25,12 +25,14 @@ public class GameActivity extends AppCompatActivity {
         TextView answer2 = this.findViewById(R.id.answer2);
         TextView answer3 = this.findViewById(R.id.answer3);
         TextView answer4 = this.findViewById(R.id.answer4);
-        questionSelect(q_question,answer1,answer2,answer3,answer4);
+        int right = questionSelect(q_question,answer1,answer2,answer3,answer4);
 
     }
 
-    private void questionSelect(TextView q_question,TextView answer1,TextView answer2,TextView answer3,TextView answer4) {
-        String[] wrong_answers = new String[3];
+    private int questionSelect(TextView q_question,TextView answer1,TextView answer2,TextView answer3,TextView answer4) {
+        String wrong_index;
+        String[] wrong_answer = new String[3];
+        String right_answer = null;
 
         Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE,null);
         cursor.moveToLast();
@@ -42,47 +44,64 @@ public class GameActivity extends AppCompatActivity {
         while(cursor.moveToNext()) {
             String id = cursor.getString(0);
             String word = cursor.getString(1);
-            String right_answer = cursor.getString(2);
+            right_answer = cursor.getString(2);
             q_question.setText(word);
             Log.v("GameQuestion",id + " " + word + " " + right_answer + " " + index);
+            if(right_answer != null) {
+                break;
+            }
         }
 
         for(int i=0;i<3;i++) {
             do {
-                wrong_answers[i] = RandomNumber(db_length);
-            } while(wrong_answers[i].equals(index));
+                wrong_index = RandomNumber(db_length);
+            } while(wrong_index.equals(index));
 
             cursor = MainActivity.db.query("myWord",new String[]{"id","chinese"},
-                    "id=?",new String[]{wrong_answers[i]},null,null,null);
+                    "id=?",new String[]{wrong_index},null,null,null);
 
             while(cursor.moveToNext()) {
                 String id = cursor.getString(0);
-                String wrong_answer = cursor.getString(1);
-                Log.v("GameAnswer",id + " " + wrong_answer);
+                wrong_answer[i] = cursor.getString(1);
+                Log.v("GameAnswer",id + " " + wrong_answer[i]);
             }
         }
 
         int place = Integer.parseInt(RandomNumber(4));
         switch (place) {
             case 0:
+                answer1.setText(right_answer);
+                answer2.setText(wrong_answer[0]);
+                answer3.setText(wrong_answer[1]);
+                answer4.setText(wrong_answer[2]);
                 break;
             case 1:
+                answer1.setText(wrong_answer[0]);
+                answer2.setText(right_answer);
+                answer3.setText(wrong_answer[1]);
+                answer4.setText(wrong_answer[2]);
                 break;
             case 2:
+                answer1.setText(wrong_answer[0]);
+                answer2.setText(wrong_answer[1]);
+                answer3.setText(right_answer);
+                answer4.setText(wrong_answer[2]);
                 break;
             case 3:
+                answer1.setText(wrong_answer[0]);
+                answer2.setText(wrong_answer[1]);
+                answer3.setText(wrong_answer[2]);
+                answer4.setText(right_answer);
                 break;
             default:
                 Log.v("MY_ERROR_MESSAGE","Answer's place error!");
                 break;
         }
-
         cursor.close();
+        return place;
     }
-
     private String RandomNumber(int range) {
         Random random = new Random();
-        String index = Integer.toString(random.nextInt(range));
-        return index;
+        return Integer.toString(random.nextInt(range));
     }
 }

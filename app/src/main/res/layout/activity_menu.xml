@@ -27,6 +27,7 @@
             android:layout_height="232dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
+            android:contentDescription="@string/TODO"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/chiken_demo_little" />
 
@@ -40,21 +41,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/btn2" />
+                android:contentDescription="@string/TODO"
+                app:srcCompat="@drawable/btnpractice" />
 
             <ImageView
                 android:id="@+id/btn_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/btn2" />
+                android:contentDescription="@string/TODO"
+                app:srcCompat="@drawable/btnstart" />
 
             <ImageView
                 android:id="@+id/btn_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/btn2" />
+                android:contentDescription="@string/TODO"
+                app:srcCompat="@drawable/btnrecord" />
 
         </LinearLayout>
 

@@ -6,4 +6,5 @@
     <string name="q_index">Q1.</string>
     <string name="q_question">default</string>
     <string name="btn_search">Search</string>
+    <string name="TODO">TODO</string>
 </resources>
