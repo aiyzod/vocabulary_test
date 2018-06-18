@@ -14,9 +14,9 @@
 
         <TextView
             android:id="@+id/q_index"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="@string/q_index"
             android:textSize="30sp" />
 
@@ -26,39 +26,43 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/q_question"
-            android:textSize="40sp" />
+            android:textSize="35sp" />
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="160sp"
-            android:layout_height="60sp"
+        <TextView
+            android:id="@+id/answer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:scaleType="fitStart"
-            app:srcCompat="@drawable/btn4" />
+            android:padding="10dp"
+            android:text="@string/q_question"
+            android:textSize="25sp" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="160sp"
-            android:layout_height="60sp"
+        <TextView
+            android:id="@+id/answer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:scaleType="fitEnd"
-            app:srcCompat="@drawable/btn5" />
+            android:padding="10dp"
+            android:text="@string/q_question"
+            android:textSize="25sp" />
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="160sp"
-            android:layout_height="60sp"
+        <TextView
+            android:id="@+id/answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:scaleType="fitStart"
-            app:srcCompat="@drawable/btn4" />
+            android:padding="10dp"
+            android:text="@string/q_question"
+            android:textSize="25sp" />
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="160sp"
-            android:layout_height="60sp"
+        <TextView
+            android:id="@+id/answer4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:scaleType="fitEnd"
-            app:srcCompat="@drawable/btn5" />
+            android:padding="10dp"
+            android:text="@string/q_question"
+            android:textSize="25sp" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
