@@ -1,6 +1,5 @@
 package com.example.asus.learningenglish;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,13 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();   //用來隱藏工作列
+        Objects.requireNonNull(getSupportActionBar()).hide();   //用來隱藏工作列
 
         TextView start_title = this.findViewById(R.id.start_title);
         TextView start_title_tip = this.findViewById(R.id.start_title_tip);
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         db = openHelper.getWritableDatabase();
 
         if (IsTableExist() == 0) {
-            getFromAssets(this, "wordlist.txt");     //單字表寫入資料庫(只在資料庫為空時寫入)
+            getFromAssets(this);     //單字表寫入資料庫(只在資料庫為空時寫入)
         }
 
         final Cursor cursor = db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);     //印出單字表(測試用)
@@ -61,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }   //點擊螢幕執行的動作
 
-    private void getFromAssets(Context context, String filename) {
+    private void getFromAssets(Context context) {
         String temp;
         try {
-            InputStream in = context.getAssets().open(filename);
+            InputStream in = context.getAssets().open("wordlist.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             int id = 0;
             while ((temp = br.readLine()) != null) {

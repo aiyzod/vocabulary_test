@@ -4,12 +4,12 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.Objects;
 
 public class StudyActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class StudyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         q_search = this.findViewById(R.id.q_search);
         q_search.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
@@ -40,7 +40,9 @@ public class StudyActivity extends AppCompatActivity {
         @Override
 
         public void onClick(View v) {
-            String input_str = vocabulary.getText().toString();
+            String input_str = vocabulary.getText().toString().toLowerCase();   //一律為小寫
+
+            // TO 曛綺 : 搜尋資料庫裡面沒有的字會閃退，可以換成用迴圈做字串比對，比對整個資料庫裡的單字在判斷要做甚麼動作
 
             Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE + " where english ='" + input_str + "';", null);
 

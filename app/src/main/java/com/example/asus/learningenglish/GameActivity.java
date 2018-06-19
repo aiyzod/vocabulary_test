@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.Random;
 
 import pl.droidsonroids.gif.GifDrawable;
@@ -34,7 +35,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         q_index = findViewById(R.id.q_index);
         q_index.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
@@ -61,21 +62,15 @@ public class GameActivity extends AppCompatActivity {
                 finish();
             }
         }.start();
-
-        right = questionCreate(q_question, answer1, answer2, answer3, answer4);
+        right = questionCreate();
 
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (right == 0) {
-                    cheat.setText("");
-                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
-                    q_index.setText("Q" + Integer.toString(++q_number) + ".");
-                    count.start();
+                    winScreen();
                 } else {
                     loseScreen();
-                    count.cancel();
-                    finish();
                 }
             }
         });
@@ -84,14 +79,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (right == 1) {
-                    cheat.setText("");
-                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
-                    q_index.setText("Q" + Integer.toString(++q_number) + ".");
-                    count.start();
+                    winScreen();
                 } else {
                     loseScreen();
-                    count.cancel();
-                    finish();
                 }
             }
         });
@@ -100,14 +90,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (right == 2) {
-                    cheat.setText("");
-                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
-                    q_index.setText("Q" + Integer.toString(++q_number) + ".");
-                    count.start();
+                    winScreen();
                 } else {
                     loseScreen();
-                    count.cancel();
-                    finish();
                 }
             }
         });
@@ -116,26 +101,21 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (right == 3) {
-                    cheat.setText("");
-                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
-                    q_index.setText("Q" + Integer.toString(++q_number) + ".");
-                    count.start();
+                    winScreen();
                 } else {
                     loseScreen();
-                    count.cancel();
-                    finish();
                 }
             }
         });
 
         gif_normal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {       //小雞給提示
                 try {
                     GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.chikenshock);
                     gifDrawable.setLoopCount(1);
                     gif_normal.setImageDrawable(gifDrawable);
-                    int random = Integer.parseInt(randomNumber(10));
+                    int random = Integer.parseInt(randomNumber(9));
                     switch (random) {
                         case 0:
                             cheat.setText("1");
@@ -161,14 +141,15 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private int questionCreate(TextView q_question, TextView answer1, TextView answer2, TextView answer3, TextView answer4) {
+    private int questionCreate() {
         String wrong_index;
         String[] wrong_answer = new String[3];
         String right_answer = null;
 
         Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);
         cursor.moveToLast();
-        int db_length = cursor.getInt(cursor.getColumnIndex("id"));
+        int db_length = cursor.getInt(cursor.getColumnIndex("id")) + 1;
+
         String index = randomNumber(db_length);
         cursor = MainActivity.db.query("myWord", new String[]{"id", "english", "chinese"},
                 "id=?", new String[]{index}, null, null, null);
@@ -202,28 +183,28 @@ public class GameActivity extends AppCompatActivity {
         int place = Integer.parseInt(randomNumber(4));
         switch (place) {
             case 0:
-                answer1.setText("1. " + right_answer);
-                answer2.setText("2. " + wrong_answer[0]);
-                answer3.setText("3. " + wrong_answer[1]);
-                answer4.setText("4. " + wrong_answer[2]);
+                answer1.setText(String.format("1. %s", right_answer));
+                answer2.setText(String.format("2. %s", wrong_answer[0]));
+                answer3.setText(String.format("3. %s", wrong_answer[1]));
+                answer4.setText(String.format("4. %s", wrong_answer[2]));
                 break;
             case 1:
-                answer1.setText("1. " + wrong_answer[0]);
-                answer2.setText("2. " + right_answer);
-                answer3.setText("3. " + wrong_answer[1]);
-                answer4.setText("4. " + wrong_answer[2]);
+                answer1.setText(String.format("1. %s", wrong_answer[0]));
+                answer2.setText(String.format("2. %s", right_answer));
+                answer3.setText(String.format("3. %s", wrong_answer[1]));
+                answer4.setText(String.format("4. %s", wrong_answer[2]));
                 break;
             case 2:
-                answer1.setText("1. " + wrong_answer[0]);
-                answer2.setText("2. " + wrong_answer[1]);
-                answer3.setText("3. " + right_answer);
-                answer4.setText("4. " + wrong_answer[2]);
+                answer1.setText(String.format("1. %s", wrong_answer[0]));
+                answer2.setText(String.format("2. %s", wrong_answer[1]));
+                answer3.setText(String.format("3. %s", right_answer));
+                answer4.setText(String.format("4. %s", wrong_answer[2]));
                 break;
             case 3:
-                answer1.setText("1. " + wrong_answer[0]);
-                answer2.setText("2. " + wrong_answer[1]);
-                answer3.setText("3. " + wrong_answer[2]);
-                answer4.setText("4. " + right_answer);
+                answer1.setText(String.format("1. %s", wrong_answer[0]));
+                answer2.setText(String.format("2. %s", wrong_answer[1]));
+                answer3.setText(String.format("3. %s", wrong_answer[2]));
+                answer4.setText(String.format("4. %s", right_answer));
                 break;
             default:
                 Log.v("MY_ERROR_MESSAGE", "Answer's place error!");
@@ -233,14 +214,23 @@ public class GameActivity extends AppCompatActivity {
         return place;
     }   //產生題目
 
+    private void winScreen() {
+        cheat.setText("");
+        right = questionCreate();
+        q_index.setText(String.format("Q%s.", Integer.toString(++q_number)));
+        count.start();
+    }   //答對執行的動作
+
     private void loseScreen() {
         Toast.makeText(GameActivity.this, "You lose", Toast.LENGTH_SHORT).show();
-    }   //失敗訊息
+        count.cancel();
+        finish();
+    }   //答錯執行的動作
 
     private String randomNumber(int range) {
         Random random = new Random();
         return Integer.toString(random.nextInt(range));
-    }   //獲得隨機數
+    }   //獲得字串隨機數
 
     @Override
     protected void onPause() {

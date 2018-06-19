@@ -1,6 +1,5 @@
 package com.example.asus.learningenglish;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class MenuActivity extends AppCompatActivity {
 
     private TextView player_name;
@@ -19,7 +20,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         player_name = findViewById(R.id.player_name);
         player_name.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
