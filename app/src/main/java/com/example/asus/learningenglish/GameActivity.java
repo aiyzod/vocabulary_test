@@ -47,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
         game_count.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
         gif_normal = findViewById(R.id.gif_normal);
         cheat = findViewById(R.id.cheat);
+        cheat.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
         count = new CountDownTimer(11000, 1000) {
             @Override
@@ -230,16 +231,16 @@ public class GameActivity extends AppCompatActivity {
         }
         cursor.close();
         return place;
-    }
+    }   //產生題目
 
     private void loseScreen() {
         Toast.makeText(GameActivity.this, "You lose", Toast.LENGTH_SHORT).show();
-    }
+    }   //失敗訊息
 
     private String randomNumber(int range) {
         Random random = new Random();
         return Integer.toString(random.nextInt(range));
-    }
+    }   //獲得隨機數
 
     @Override
     protected void onPause() {

@@ -1,6 +1,8 @@
 package com.example.asus.learningenglish;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +14,6 @@ import android.widget.TextView;
 public class MenuActivity extends AppCompatActivity {
 
     private TextView player_name;
-    private ImageView btn_game;
-    private ImageView btn_study;
-    private ImageView btn_record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +24,28 @@ public class MenuActivity extends AppCompatActivity {
         player_name = findViewById(R.id.player_name);
         player_name.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
-        btn_game = findViewById(R.id.btn_game);
-        btn_study = findViewById(R.id.btn_study);
-        btn_record = findViewById(R.id.btn_record);
+        ImageView btn_game = findViewById(R.id.btn_game);
+        ImageView btn_study = findViewById(R.id.btn_study);
+        ImageView btn_record = findViewById(R.id.btn_record);
         changeActivity(btn_game, 0);
         changeActivity(btn_study, 1);
         changeActivity(btn_record, 2);
+
+        player_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+    }
+
+    private void openDialog() {
+        new AlertDialog.Builder(this).setTitle("Test").setMessage("Hello World!").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).show();
     }
 
     private void changeActivity(ImageView btn_click, final int check_target) {
@@ -55,4 +70,5 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
     }
+
 }
