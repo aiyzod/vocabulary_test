@@ -2,6 +2,7 @@ package com.example.asus.learningenglish;
 
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,8 @@ public class GameActivity extends AppCompatActivity {
     private TextView answer2;
     private TextView answer3;
     private TextView answer4;
+    private TextView game_count;
+    private CountDownTimer count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,26 +31,42 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
 
-        q_index = this.findViewById(R.id.q_index);
+        q_index = findViewById(R.id.q_index);
         q_index.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
-        q_question = this.findViewById(R.id.q_question);
-        answer1 = this.findViewById(R.id.answer1);
-        answer2 = this.findViewById(R.id.answer2);
-        answer3 = this.findViewById(R.id.answer3);
-        answer4 = this.findViewById(R.id.answer4);
+        q_question = findViewById(R.id.q_question);
+        answer1 = findViewById(R.id.answer1);
+        answer2 = findViewById(R.id.answer2);
+        answer3 = findViewById(R.id.answer3);
+        answer4 = findViewById(R.id.answer4);
+        game_count = findViewById(R.id.game_count);
+        game_count.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
+        count = new CountDownTimer(11000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                game_count.setText( String.format("%2d",millisUntilFinished/1000 ));
+            }
 
-        right = questionSelect(q_question, answer1, answer2, answer3, answer4);
+            @Override
+            public void onFinish() {
+                loseScreen();
+                finish();
+            }
+        }.start();
+
+        right = questionCreate(q_question, answer1, answer2, answer3, answer4);
 
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (right == 0) {
                     Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
-                    right = questionSelect(q_question, answer1, answer2, answer3, answer4);
+                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
+                    count.start();
                 } else {
-                    Toast.makeText(GameActivity.this, "you lose", Toast.LENGTH_SHORT).show();
+                    loseScreen();
+                    count.cancel();
                     finish();
                 }
             }
@@ -58,10 +77,12 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (right == 1) {
                     Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
-                    right = questionSelect(q_question, answer1, answer2, answer3, answer4);
+                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
+                    count.start();
                 } else {
-                    Toast.makeText(GameActivity.this, "you lose", Toast.LENGTH_SHORT).show();
+                    loseScreen();
+                    count.cancel();
                     finish();
                 }
             }
@@ -72,10 +93,12 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (right == 2) {
                     Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
-                    right = questionSelect(q_question, answer1, answer2, answer3, answer4);
+                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
+                    count.start();
                 } else {
-                    Toast.makeText(GameActivity.this, "you lose", Toast.LENGTH_SHORT).show();
+                    loseScreen();
+                    count.cancel();
                     finish();
                 }
             }
@@ -86,19 +109,19 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (right == 3) {
                     Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
-                    right = questionSelect(q_question, answer1, answer2, answer3, answer4);
+                    right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
+                    count.start();
                 } else {
-                    Toast.makeText(GameActivity.this, "you lose", Toast.LENGTH_SHORT).show();
+                    loseScreen();
+                    count.cancel();
                     finish();
                 }
             }
         });
-
-
     }
 
-    private int questionSelect(TextView q_question, TextView answer1, TextView answer2, TextView answer3, TextView answer4) {
+    private int questionCreate(TextView q_question, TextView answer1, TextView answer2, TextView answer3, TextView answer4) {
         String wrong_index;
         String[] wrong_answer = new String[3];
         String right_answer = null;
@@ -106,7 +129,7 @@ public class GameActivity extends AppCompatActivity {
         Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);
         cursor.moveToLast();
         int db_length = cursor.getInt(cursor.getColumnIndex("id"));
-        String index = RandomNumber(db_length);
+        String index = randomNumber(db_length);
         cursor = MainActivity.db.query("myWord", new String[]{"id", "english", "chinese"},
                 "id=?", new String[]{index}, null, null, null);
 
@@ -123,7 +146,7 @@ public class GameActivity extends AppCompatActivity {
 
         for (int i = 0; i < 3; i++) {
             do {
-                wrong_index = RandomNumber(db_length);
+                wrong_index = randomNumber(db_length);
             } while (wrong_index.equals(index));
 
             cursor = MainActivity.db.query("myWord", new String[]{"id", "chinese"},
@@ -136,7 +159,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        int place = Integer.parseInt(RandomNumber(4));
+        int place = Integer.parseInt(randomNumber(4));
         switch (place) {
             case 0:
                 answer1.setText(right_answer);
@@ -170,8 +193,18 @@ public class GameActivity extends AppCompatActivity {
         return place;
     }
 
-    private String RandomNumber(int range) {
+    private void loseScreen() {
+        Toast.makeText(GameActivity.this, "You lose", Toast.LENGTH_SHORT).show();
+    }
+
+    private String randomNumber(int range) {
         Random random = new Random();
         return Integer.toString(random.nextInt(range));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        count.cancel();
     }
 }

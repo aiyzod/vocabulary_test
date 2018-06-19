@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }   //點擊螢幕執行的動作
 
-    public void getFromAssets(Context context, String filename) {
+    private void getFromAssets(Context context, String filename) {
         String temp;
         try {
             InputStream in = context.getAssets().open(filename);
