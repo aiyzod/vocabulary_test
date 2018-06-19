@@ -16,6 +16,6 @@ public class StudyActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         q_search = this.findViewById(R.id.q_search);
-        q_search.setTypeface(Typeface.createFromAsset(getAssets(),"setofont.ttf"));
+        q_search.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
     }
 }

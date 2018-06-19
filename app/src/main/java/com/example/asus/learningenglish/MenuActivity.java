@@ -23,14 +23,14 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         player_name = findViewById(R.id.player_name);
-        player_name.setTypeface(Typeface.createFromAsset(getAssets(),"setofont.ttf"));
+        player_name.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
         btn_game = findViewById(R.id.btn_game);
         btn_study = findViewById(R.id.btn_study);
         btn_record = findViewById(R.id.btn_record);
-        changeActivity(btn_game,0);
-        changeActivity(btn_study,1);
-        changeActivity(btn_record,2);
+        changeActivity(btn_game, 0);
+        changeActivity(btn_study, 1);
+        changeActivity(btn_record, 2);
     }
 
     private void changeActivity(ImageView btn_click, final int check_target) {
@@ -40,13 +40,13 @@ public class MenuActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 switch (check_target) {
                     case 0:
-                        intent.setClass(MenuActivity.this,GameActivity.class);
+                        intent.setClass(MenuActivity.this, GameActivity.class);
                         break;
                     case 1:
-                        intent.setClass(MenuActivity.this,StudyActivity.class);
+                        intent.setClass(MenuActivity.this, StudyActivity.class);
                         break;
                     case 2:
-                        intent.setClass(MenuActivity.this,RecordActivity.class);
+                        intent.setClass(MenuActivity.this, RecordActivity.class);
                         break;
                     default:
                         break;

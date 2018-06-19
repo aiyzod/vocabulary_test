@@ -9,7 +9,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     static String DATABASE_TABLE = "myWord";
 
     public DBOpenHelper(Context context) {
-        super(context,"myWord.db",null,1);
+        super(context, "myWord.db", null, 1);
     }
 
     @Override

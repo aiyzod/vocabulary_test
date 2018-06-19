@@ -30,19 +30,19 @@ public class MainActivity extends AppCompatActivity {
 
         TextView start_title = this.findViewById(R.id.start_title);
         TextView start_title_tip = this.findViewById(R.id.start_title_tip);
-        start_title.setTypeface(Typeface.createFromAsset(getAssets(),"setofont.ttf"));  //更換字體
-        start_title_tip.setTypeface(Typeface.createFromAsset(getAssets(),"setofont.ttf"));
+        start_title.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));  //更換字體
+        start_title_tip.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
         DBOpenHelper openHelper = new DBOpenHelper(this);    //創建SQLite資料庫
         db = openHelper.getWritableDatabase();
 
-        if(IsTableExist() == 0) {
-            getFromAssets(this,"wordlist.txt");     //單字表寫入資料庫(只在資料庫為空時寫入)
+        if (IsTableExist() == 0) {
+            getFromAssets(this, "wordlist.txt");     //單字表寫入資料庫(只在資料庫為空時寫入)
         }
 
-        final Cursor cursor = db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE,null);     //印出單字表(測試用)
+        final Cursor cursor = db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);     //印出單字表(測試用)
         cursor.moveToFirst();
-        for(int i = 0;i < cursor.getCount();i++){
+        for (int i = 0; i < cursor.getCount(); i++) {
             Log.v("SQLite", cursor.getString(cursor.getColumnIndex("id")) +
                     "," + cursor.getString(cursor.getColumnIndex("english")) +
                     "," + cursor.getString(cursor.getColumnIndex("chinese")));
@@ -53,23 +53,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_UP) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this,MenuActivity.class);
+            intent.setClass(MainActivity.this, MenuActivity.class);
             startActivity(intent);
         }
         return super.onTouchEvent(event);
     }   //點擊螢幕執行的動作
 
     public void getFromAssets(Context context, String filename) {
-        String temp = "";
-        try{
+        String temp;
+        try {
             InputStream in = context.getAssets().open(filename);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             int id = 0;
-            while((temp = br.readLine()) != null) {
+            while ((temp = br.readLine()) != null) {
                 db.execSQL("insert into " + DBOpenHelper.DATABASE_TABLE + " values(\"" + id + "\",\"" +
-                        temp.substring(0,temp.indexOf(",")) + "\",\"" + temp.substring(temp.indexOf(",")+1) + "\");");
+                        temp.substring(0, temp.indexOf(",")) + "\",\"" + temp.substring(temp.indexOf(",") + 1) + "\");");
                 id++;
             }
             in.close();
@@ -79,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
     }   //把單字表(wordlist.txt)寫入SQLite
 
     private int IsTableExist() {
-        int amount = 0;
         Cursor c = db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);
-        amount =c.getCount();
+        int amount = c.getCount();
         c.close();
         return amount;
     }   //判斷SQLite內是否有資料
