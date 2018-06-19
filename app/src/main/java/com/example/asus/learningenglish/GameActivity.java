@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+
 public class GameActivity extends AppCompatActivity {
 
     private int right;
@@ -23,7 +26,9 @@ public class GameActivity extends AppCompatActivity {
     private TextView answer3;
     private TextView answer4;
     private TextView game_count;
+    private TextView cheat;
     private CountDownTimer count;
+    private GifImageView gif_normal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +45,13 @@ public class GameActivity extends AppCompatActivity {
         answer4 = findViewById(R.id.answer4);
         game_count = findViewById(R.id.game_count);
         game_count.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
+        gif_normal = findViewById(R.id.gif_normal);
+        cheat = findViewById(R.id.cheat);
 
-        count = new CountDownTimer(11000,1000) {
+        count = new CountDownTimer(11000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                game_count.setText( String.format("%2d",millisUntilFinished/1000 ));
+                game_count.setText(String.format("%2d", millisUntilFinished / 1000));
             }
 
             @Override
@@ -60,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (right == 0) {
-                    Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
+                    cheat.setText("");
                     right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
                     count.start();
@@ -76,7 +83,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (right == 1) {
-                    Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
+                    cheat.setText("");
                     right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
                     count.start();
@@ -92,7 +99,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (right == 2) {
-                    Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
+                    cheat.setText("");
                     right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
                     count.start();
@@ -108,7 +115,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (right == 3) {
-                    Toast.makeText(GameActivity.this, "correct", Toast.LENGTH_SHORT).show();
+                    cheat.setText("");
                     right = questionCreate(q_question, answer1, answer2, answer3, answer4);
                     q_index.setText("Q" + Integer.toString(++q_number) + ".");
                     count.start();
@@ -117,6 +124,38 @@ public class GameActivity extends AppCompatActivity {
                     count.cancel();
                     finish();
                 }
+            }
+        });
+
+        gif_normal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.chikenshock);
+                    gifDrawable.setLoopCount(1);
+                    gif_normal.setImageDrawable(gifDrawable);
+                    int random = Integer.parseInt(randomNumber(10));
+                    switch (random) {
+                        case 0:
+                            cheat.setText("1");
+                            break;
+                        case 1:
+                            cheat.setText("2");
+                            break;
+                        case 2:
+                            cheat.setText("3");
+                            break;
+                        case 3:
+                            cheat.setText("4");
+                            break;
+                        default:
+                            cheat.setText(String.format("%d", right + 1));
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
@@ -162,28 +201,28 @@ public class GameActivity extends AppCompatActivity {
         int place = Integer.parseInt(randomNumber(4));
         switch (place) {
             case 0:
-                answer1.setText(right_answer);
-                answer2.setText(wrong_answer[0]);
-                answer3.setText(wrong_answer[1]);
-                answer4.setText(wrong_answer[2]);
+                answer1.setText("1. " + right_answer);
+                answer2.setText("2. " + wrong_answer[0]);
+                answer3.setText("3. " + wrong_answer[1]);
+                answer4.setText("4. " + wrong_answer[2]);
                 break;
             case 1:
-                answer1.setText(wrong_answer[0]);
-                answer2.setText(right_answer);
-                answer3.setText(wrong_answer[1]);
-                answer4.setText(wrong_answer[2]);
+                answer1.setText("1. " + wrong_answer[0]);
+                answer2.setText("2. " + right_answer);
+                answer3.setText("3. " + wrong_answer[1]);
+                answer4.setText("4. " + wrong_answer[2]);
                 break;
             case 2:
-                answer1.setText(wrong_answer[0]);
-                answer2.setText(wrong_answer[1]);
-                answer3.setText(right_answer);
-                answer4.setText(wrong_answer[2]);
+                answer1.setText("1. " + wrong_answer[0]);
+                answer2.setText("2. " + wrong_answer[1]);
+                answer3.setText("3. " + right_answer);
+                answer4.setText("4. " + wrong_answer[2]);
                 break;
             case 3:
-                answer1.setText(wrong_answer[0]);
-                answer2.setText(wrong_answer[1]);
-                answer3.setText(wrong_answer[2]);
-                answer4.setText(right_answer);
+                answer1.setText("1. " + wrong_answer[0]);
+                answer2.setText("2. " + wrong_answer[1]);
+                answer3.setText("3. " + wrong_answer[2]);
+                answer4.setText("4. " + right_answer);
                 break;
             default:
                 Log.v("MY_ERROR_MESSAGE", "Answer's place error!");
