@@ -9,4 +9,7 @@
     <string name="TODO">TODO</string>
     <string name="search">Search</string>
     <string name="record_best">最佳紀錄:</string>
+    <string name="game">START</string>
+    <string name="study">STUDY</string>
+    <string name="record">RECORD</string>
 </resources>

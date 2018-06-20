@@ -1,6 +1,8 @@
 package com.example.asus.learningenglish;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
@@ -61,7 +63,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 loseScreen();
-                finish();
             }
         }.start();
         right = questionCreate();
@@ -225,9 +226,9 @@ public class GameActivity extends AppCompatActivity {
     }   //答對執行的動作
 
     private void loseScreen() {
-        Toast.makeText(GameActivity.this, "You lose", Toast.LENGTH_SHORT).show();
         count.cancel();
         checkScore();
+        Toast.makeText(this,"答對了" + (q_number-1) + "題",Toast.LENGTH_LONG).show();
         finish();
     }   //答錯執行的動作
 

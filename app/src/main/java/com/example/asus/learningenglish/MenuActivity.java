@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,9 +30,12 @@ public class MenuActivity extends AppCompatActivity {
         player_name.setText(getName());
 
 
-        ImageView btn_game = findViewById(R.id.btn_game);
-        ImageView btn_study = findViewById(R.id.btn_study);
-        ImageView btn_record = findViewById(R.id.btn_record);
+        Button btn_game = findViewById(R.id.btn_game);
+        btn_game.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
+        Button btn_study = findViewById(R.id.btn_study);
+        btn_study.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
+        Button btn_record = findViewById(R.id.btn_record);
+        btn_record.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
         changeActivity(btn_game, 0);
         changeActivity(btn_study, 1);
@@ -67,7 +71,7 @@ public class MenuActivity extends AppCompatActivity {
         return name;
     }
 
-    private void changeActivity(ImageView btn_click, final int check_target) {
+    private void changeActivity(Button btn_click, final int check_target) {
         btn_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

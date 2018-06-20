@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,8 +15,8 @@
             android:id="@+id/player_name"
             android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:layout_marginTop="210dp"
             android:gravity="center"
-            android:layout_marginTop="170dp"
             android:text="@string/default_name"
             android:textSize="30sp" />
 
@@ -26,39 +25,52 @@
             android:layout_width="250dp"
             android:layout_height="232dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
             android:layout_marginTop="30dp"
             android:scaleType="centerCrop"
             android:src="@drawable/chiken_demo_little" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+
+            <Button
                 android:id="@+id/btn_study"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
                 android:layout_weight="1"
-                android:contentDescription="@string/TODO"
-                app:srcCompat="@drawable/btnpractice" />
+                android:background="@drawable/btn2"
+                android:text="@string/study"
+                android:textSize="22sp"
+                android:textColor="#4682B4"
+                android:textStyle="bold"
+                tools:ignore="ButtonStyle" />
 
-            <ImageView
+            <Button
                 android:id="@+id/btn_game"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
                 android:layout_weight="1"
-                android:contentDescription="@string/TODO"
-                app:srcCompat="@drawable/btnstart" />
+                android:background="@drawable/btn2"
+                android:text="@string/game"
+                android:textSize="22sp"
+                android:textColor="#4682B4"
+                android:textStyle="bold"
+                tools:ignore="ButtonStyle" />
 
-            <ImageView
+            <Button
                 android:id="@+id/btn_record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
                 android:layout_weight="1"
-                android:contentDescription="@string/TODO"
-                app:srcCompat="@drawable/btnrecord" />
-
+                android:background="@drawable/btn2"
+                android:text="@string/record"
+                android:textSize="22sp"
+                android:textColor="#4682B4"
+                android:textStyle="bold"
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
 
     </LinearLayout>
