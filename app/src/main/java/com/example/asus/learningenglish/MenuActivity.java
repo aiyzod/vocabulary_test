@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,10 +42,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void openDialog() {
-        new AlertDialog.Builder(this).setTitle("Test").setMessage("Hello World!").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setTitle("Your name:").setView(new EditText(this)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         }).show();
     }

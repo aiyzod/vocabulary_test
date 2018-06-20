@@ -15,7 +15,6 @@ public class StudyActivity extends AppCompatActivity {
 
     private TextView q_search;
     private TextView q_chinese;
-    private Button search;
     private EditText vocabulary;
 
     @Override
@@ -30,41 +29,36 @@ public class StudyActivity extends AppCompatActivity {
         q_chinese = this.findViewById(R.id.q_chinese);
         q_chinese.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
-        search = findViewById(R.id.btn_search);
-        search.setOnClickListener(findvocabulary);
+        Button search = findViewById(R.id.btn_search);
+        search.setOnClickListener(findVocabulary);
+        search.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
 
         vocabulary = findViewById(R.id.et_vocabulary);
     }
-    private View.OnClickListener findvocabulary = new View. OnClickListener() {
+
+    private View.OnClickListener findVocabulary = new View.OnClickListener() {
 
         @Override
 
         public void onClick(View v) {
-            String input_str = vocabulary.getText().toString().toLowerCase();
+            String input_str = vocabulary.getText().toString().toLowerCase().replaceAll(" ", "");
 
             Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE + " where english ='" + input_str + "';", null);
 
             cursor.moveToFirst();
 
-            Cursor mcursor = cursor;
-
-            if( mcursor!=null && mcursor.getCount() > 0) {
-
+            if (cursor.getCount() > 0) {
                 String word_english = cursor.getString(1);
                 String word_chinese = cursor.getString(2);
-                q_search.setText(word_english);
                 q_chinese.setText(word_chinese);
-
+                q_search.setText(word_english);
             } else {
-
                 q_chinese.setText("查無此單字");
                 q_search.setText("");
             }
 
-
-
+            cursor.close();
         }
     };
-
 }
