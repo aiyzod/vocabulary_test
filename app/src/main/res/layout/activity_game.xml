@@ -38,7 +38,7 @@
                 android:paddingEnd="30dp"
                 android:paddingStart="0dp"
                 android:text="@string/q_question"
-                android:textSize="35sp" />
+                android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,7 +58,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/q_question"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/answer2"
@@ -70,7 +70,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/q_question"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,7 +88,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/q_question"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/answer4"
@@ -100,7 +100,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/q_question"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout

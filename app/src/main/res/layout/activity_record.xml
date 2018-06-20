@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="題"
+                android:text="@string/record_Q"
                 android:textSize="25sp" />
 
         </LinearLayout>
@@ -59,7 +59,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:background="@drawable/btn3"
-            android:text="重設紀錄"
+            android:text="@string/record_reset"
             android:textSize="18sp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
