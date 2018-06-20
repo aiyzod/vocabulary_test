@@ -16,6 +16,9 @@ public class StudyActivity extends AppCompatActivity {
     private TextView q_search;
     private TextView q_chinese;
     private EditText vocabulary;
+    private Button word_back;
+    private Button word_next;
+    private Cursor cursor_control;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +36,54 @@ public class StudyActivity extends AppCompatActivity {
         search.setOnClickListener(findVocabulary);
         search.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
-
         vocabulary = findViewById(R.id.et_vocabulary);
+
+        word_back = findViewById(R.id.word_back);
+        word_next = findViewById(R.id.word_next);
+
+        vocabularyViewer();
+
     }
+
+    private void vocabularyViewer() {
+        cursor_control = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE,null);
+        cursor_control.moveToFirst();
+        cursor_control.moveToNext();
+        q_chinese.setText(cursor_control.getString(cursor_control.getColumnIndex("chinese")));
+        q_search.setText(cursor_control.getString(cursor_control.getColumnIndex("english")));
+
+        word_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cursor_control.moveToPrevious();
+                checkCursor();
+                q_chinese.setText(cursor_control.getString(cursor_control.getColumnIndex("chinese")));
+                q_search.setText(cursor_control.getString(cursor_control.getColumnIndex("english")));
+            }
+        });
+
+        word_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCursor();
+                cursor_control.moveToNext();
+                q_chinese.setText(cursor_control.getString(cursor_control.getColumnIndex("chinese")));
+                q_search.setText(cursor_control.getString(cursor_control.getColumnIndex("english")));
+            }
+        });
+    }   //單字檢視器
+
+    private void checkCursor() {
+        Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);
+        cursor.moveToLast();
+
+        if(cursor_control.getString(cursor_control.getColumnIndex("id")).equals("0")) {
+            cursor_control.moveToNext();
+        } else if (cursor_control.getString(cursor_control.getColumnIndex("id")).equals(cursor.getString(cursor.getColumnIndex("id")))) {
+            cursor_control.moveToPrevious();
+        }
+        cursor.close();
+    }   //檢查curcor是否可以移動
 
     private View.OnClickListener findVocabulary = new View.OnClickListener() {
 
@@ -61,4 +109,10 @@ public class StudyActivity extends AppCompatActivity {
             cursor.close();
         }
     };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        cursor_control.close();
+    }
 }
