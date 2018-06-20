@@ -1,3 +1,4 @@
+Tap to set name,0
 appointment,約定
 attendance,出席
 cabinet,櫥櫃

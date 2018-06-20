@@ -3,6 +3,7 @@ package com.example.asus.learningenglish;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,10 +26,13 @@ public class MenuActivity extends AppCompatActivity {
 
         player_name = findViewById(R.id.player_name);
         player_name.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
+        player_name.setText(getName());
+
 
         ImageView btn_game = findViewById(R.id.btn_game);
         ImageView btn_study = findViewById(R.id.btn_study);
         ImageView btn_record = findViewById(R.id.btn_record);
+
         changeActivity(btn_game, 0);
         changeActivity(btn_study, 1);
         changeActivity(btn_record, 2);
@@ -42,11 +46,25 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void openDialog() {
-        new AlertDialog.Builder(this).setTitle("Your name:").setView(new EditText(this)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        final EditText setName = new EditText(this);
+        new AlertDialog.Builder(this).setTitle("Your name:").setView(setName).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String newName = setName.getText().toString();
+                if (!newName.equals("")) {
+                    MainActivity.db.execSQL("update " + DBOpenHelper.DATABASE_TABLE + " set english='" + newName + "' where id='0'");
+                    player_name.setText(newName);
+                }
             }
         }).show();
+    }
+
+    private String getName() {
+        Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE ,null);
+        cursor.moveToFirst();
+        String name = cursor.getString(cursor.getColumnIndex("english"));
+        cursor.close();
+        return name;
     }
 
     private void changeActivity(ImageView btn_click, final int check_target) {

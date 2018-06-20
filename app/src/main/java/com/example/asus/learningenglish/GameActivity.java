@@ -1,5 +1,6 @@
 package com.example.asus.learningenglish;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
@@ -51,6 +52,7 @@ public class GameActivity extends AppCompatActivity {
         cheat.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
         count = new CountDownTimer(11000, 1000) {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onTick(long millisUntilFinished) {
                 game_count.setText(String.format("%2d", millisUntilFinished / 1000));
@@ -67,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (right == 0) {
+                if (right == 1) {
                     winScreen();
                 } else {
                     loseScreen();
@@ -78,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
         answer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (right == 1) {
+                if (right == 2) {
                     winScreen();
                 } else {
                     loseScreen();
@@ -89,7 +91,7 @@ public class GameActivity extends AppCompatActivity {
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (right == 2) {
+                if (right == 3) {
                     winScreen();
                 } else {
                     loseScreen();
@@ -100,7 +102,7 @@ public class GameActivity extends AppCompatActivity {
         answer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (right == 3) {
+                if (right == 4) {
                     winScreen();
                 } else {
                     loseScreen();
@@ -109,28 +111,29 @@ public class GameActivity extends AppCompatActivity {
         });
 
         gif_normal.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onClick(View v) {       //小雞給提示
                 try {
                     GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.chikenshock);
                     gifDrawable.setLoopCount(1);
                     gif_normal.setImageDrawable(gifDrawable);
-                    int random = Integer.parseInt(randomNumber(9));
+                    int random = Integer.parseInt(randomNumber(8));
                     switch (random) {
-                        case 0:
+                        case 1:
                             cheat.setText("1");
                             break;
-                        case 1:
+                        case 2:
                             cheat.setText("2");
                             break;
-                        case 2:
+                        case 3:
                             cheat.setText("3");
                             break;
-                        case 3:
+                        case 4:
                             cheat.setText("4");
                             break;
                         default:
-                            cheat.setText(String.format("%d", right + 1));
+                            cheat.setText(String.format("%d", right));
                             break;
                     }
                 } catch (Exception e) {
@@ -148,7 +151,7 @@ public class GameActivity extends AppCompatActivity {
 
         Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);
         cursor.moveToLast();
-        int db_length = cursor.getInt(cursor.getColumnIndex("id")) + 1;
+        int db_length = cursor.getInt(cursor.getColumnIndex("id"));
 
         String index = randomNumber(db_length);
         cursor = MainActivity.db.query("myWord", new String[]{"id", "english", "chinese"},
@@ -182,25 +185,25 @@ public class GameActivity extends AppCompatActivity {
 
         int place = Integer.parseInt(randomNumber(4));
         switch (place) {
-            case 0:
+            case 1:
                 answer1.setText(String.format("1. %s", right_answer));
                 answer2.setText(String.format("2. %s", wrong_answer[0]));
                 answer3.setText(String.format("3. %s", wrong_answer[1]));
                 answer4.setText(String.format("4. %s", wrong_answer[2]));
                 break;
-            case 1:
+            case 2:
                 answer1.setText(String.format("1. %s", wrong_answer[0]));
                 answer2.setText(String.format("2. %s", right_answer));
                 answer3.setText(String.format("3. %s", wrong_answer[1]));
                 answer4.setText(String.format("4. %s", wrong_answer[2]));
                 break;
-            case 2:
+            case 3:
                 answer1.setText(String.format("1. %s", wrong_answer[0]));
                 answer2.setText(String.format("2. %s", wrong_answer[1]));
                 answer3.setText(String.format("3. %s", right_answer));
                 answer4.setText(String.format("4. %s", wrong_answer[2]));
                 break;
-            case 3:
+            case 4:
                 answer1.setText(String.format("1. %s", wrong_answer[0]));
                 answer2.setText(String.format("2. %s", wrong_answer[1]));
                 answer3.setText(String.format("3. %s", wrong_answer[2]));
@@ -224,17 +227,29 @@ public class GameActivity extends AppCompatActivity {
     private void loseScreen() {
         Toast.makeText(GameActivity.this, "You lose", Toast.LENGTH_SHORT).show();
         count.cancel();
+        checkScore();
         finish();
     }   //答錯執行的動作
 
     private String randomNumber(int range) {
         Random random = new Random();
-        return Integer.toString(random.nextInt(range));
+        return Integer.toString(random.nextInt(range) + 1);
     }   //獲得字串隨機數
+
+    private void checkScore() {
+        Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE ,null);
+        cursor.moveToFirst();
+        int score = cursor.getInt(cursor.getColumnIndex("chinese"));
+        if(q_number > score) {
+            MainActivity.db.execSQL("update " + DBOpenHelper.DATABASE_TABLE + " set chinese='" + String.valueOf(q_number - 1) + "' where id='0'");
+        }
+        Log.v("BEST SCORE",String.valueOf(score));
+        cursor.close();
+    }   //更新最佳紀錄
 
     @Override
     protected void onPause() {
         super.onPause();
         count.cancel();
-    }
+    }   //若中途離開則關閉計時器
 }
