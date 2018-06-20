@@ -28,6 +28,7 @@ public class StudyActivity extends AppCompatActivity {
         q_search.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
         q_chinese = this.findViewById(R.id.q_chinese);
+        q_chinese.setTypeface(Typeface.createFromAsset(getAssets(), "setofont.ttf"));
 
         search = findViewById(R.id.btn_search);
         search.setOnClickListener(findvocabulary);
@@ -40,18 +41,28 @@ public class StudyActivity extends AppCompatActivity {
         @Override
 
         public void onClick(View v) {
-            String input_str = vocabulary.getText().toString().toLowerCase();   //一律為小寫
-
-            // TO 曛綺 : 搜尋資料庫裡面沒有的字會閃退，可以換成用迴圈做字串比對，比對整個資料庫裡的單字在判斷要做甚麼動作
+            String input_str = vocabulary.getText().toString().toLowerCase();
 
             Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE + " where english ='" + input_str + "';", null);
 
             cursor.moveToFirst();
 
-            String word_english = cursor.getString(1);
-            String word_chinese = cursor.getString(2);
-            q_search.setText(word_english);
-            q_chinese.setText(word_chinese);
+            Cursor mcursor = cursor;
+
+            if( mcursor!=null && mcursor.getCount() > 0) {
+
+                String word_english = cursor.getString(1);
+                String word_chinese = cursor.getString(2);
+                q_search.setText(word_english);
+                q_chinese.setText(word_chinese);
+
+            } else {
+
+                q_chinese.setText("查無此單字");
+                q_search.setText("");
+            }
+
+
 
         }
     };
