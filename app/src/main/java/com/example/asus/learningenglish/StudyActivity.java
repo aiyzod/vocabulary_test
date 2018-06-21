@@ -74,7 +74,7 @@ public class StudyActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String new_english = get_english.getText().toString();
+                String new_english = get_english.getText().toString().toLowerCase();
                 String new_chinese = get_chinese.getText().toString();
 
                 Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE + " where english ='" + new_english + "';", null);
@@ -134,7 +134,7 @@ public class StudyActivity extends AppCompatActivity {
     private void checkCursor(int check) {
         Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE, null);
         cursor.moveToLast();
-        if(cursor_control.getString(cursor_control.getColumnIndex("id")).equals("0")) {
+        if(cursor_control.getString(cursor_control.getColumnIndex("id")).equals("0") ) {
             cursor_control.moveToNext();
             cursor_control.moveToNext();
         } else if (cursor_control.getString(cursor_control.getColumnIndex("id")).equals(cursor.getString(cursor.getColumnIndex("id")))) {
@@ -150,7 +150,7 @@ public class StudyActivity extends AppCompatActivity {
         @Override
 
         public void onClick(View v) {
-            String input_str = vocabulary.getText().toString().toLowerCase().replaceAll(" ", "");
+            String input_str = vocabulary.getText().toString().toLowerCase();
 
             Cursor cursor = MainActivity.db.rawQuery("select * from " + DBOpenHelper.DATABASE_TABLE + " where english ='" + input_str + "';", null);
 
