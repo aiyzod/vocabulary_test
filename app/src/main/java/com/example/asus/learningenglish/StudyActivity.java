@@ -172,6 +172,5 @@ public class StudyActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        cursor_control.close();
     }
 }
