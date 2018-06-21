@@ -243,6 +243,7 @@ public class GameActivity extends AppCompatActivity {
         int score = cursor.getInt(cursor.getColumnIndex("chinese"));
         if(q_number > score) {
             MainActivity.db.execSQL("update " + DBOpenHelper.DATABASE_TABLE + " set chinese='" + String.valueOf(q_number - 1) + "' where id='0'");
+
         }
         Log.v("BEST SCORE",String.valueOf(score));
         cursor.close();

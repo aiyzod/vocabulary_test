@@ -14,4 +14,7 @@
     <string name="record">RECORD</string>
     <string name="record_Q">題</string>
     <string name="record_reset">重設紀錄</string>
+    <string name="word_new">新增或修改</string>
+    <string name="input_english">單字名稱:</string>
+    <string name="input_chinese">中文意思:</string>
 </resources>
